@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { SideBarItem } from "./components/sidebar-item";
 import { useAuth } from "@/store";
-import { Beef, Utensils, User2, Bike, TreeDeciduous, Image } from "lucide-react";
+import { Beef } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ModeToggle } from "./components/mode-toggle";
 
@@ -20,7 +20,7 @@ export function Sidebar({ className, children }: SidebarProps) {
   return (
     <div className="grid grid-cols-5 h-screen">
       <div className={cn("pb-11 bg-background", className)}>
-        <div className="space-y-4 py-4 sticky top-0 h-screen flex flex-col">
+        <div className="space-y-4 py-4 sticky top-0 h-screen flex flex-col border-l-4">
           <div className="flex-1">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-sm md:text-lg font-semibold tracking-tight">
@@ -28,22 +28,10 @@ export function Sidebar({ className, children }: SidebarProps) {
               </h2>
               <div className="space-y-1">
                 <SideBarItem
-                  title="كل المطاعم"
+                  title="كل المنتجات"
                   variant={checkPathName("/home")}
                   icon={<Beef className="shrink-0" />}
                   onClick={() => navigation("/home")}
-                />
-                <SideBarItem
-                  title="الأقسام"
-                  icon={<Utensils className="shrink-0" />}
-                  variant={checkPathName("/categories")}
-                  onClick={() => navigation("/categories")}
-                />
-                <SideBarItem
-                  title="المنتجات"
-                  icon={<Utensils className="shrink-0" />}
-                  variant={checkPathName("/products")}
-                  onClick={() => navigation("/products")}
                 />
               </div>
             </div>
@@ -52,36 +40,6 @@ export function Sidebar({ className, children }: SidebarProps) {
                 أخري
               </h2>
               <div className="space-y-1">
-                <SideBarItem
-                  icon={<User2 className="ml-2 h-5 w-5 shrink-0" strokeWidth={1.5} />}
-                  title="المشرفين"
-                  variant={checkPathName("/admins")}
-                  onClick={() => navigation("/admins")}
-                />
-                <SideBarItem
-                  icon={
-                    <Bike className="ml-2 h-5 w-5 shrink-0" strokeWidth={1.5} />
-                  }
-                  title="موظفي التوصيل"
-                  variant={checkPathName("/deliveries")}
-                  onClick={() => navigation("/deliveries")}
-                />
-                <SideBarItem
-                  icon={
-                    <TreeDeciduous className="ml-2 h-5 w-5 shrink-0" strokeWidth={1.5} />
-                  }
-                  title="مناطق التوصيل"
-                  variant={checkPathName("/delivery-areas")}
-                  onClick={() => navigation("/delivery-areas")}
-                />
-                <SideBarItem
-                  icon={
-                    <Image className="ml-2 h-5 w-5 shrink-0" strokeWidth={1.5} />
-                  }
-                  title="سلايدر الصور"
-                  variant={checkPathName("/slider")}
-                  onClick={() => navigation("/slider")}
-                />
               </div>
             </div>
           </div>
