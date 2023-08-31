@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { SideBarItem } from "./components/sidebar-item";
 import { useAuth } from "@/store";
-import { Beef } from "lucide-react";
+import { Beef, Cookie } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ModeToggle } from "./components/mode-toggle";
 
@@ -20,7 +20,7 @@ export function Sidebar({ className, children }: SidebarProps) {
   return (
     <div className="grid grid-cols-5 h-screen">
       <div className={cn("pb-11 bg-background", className)}>
-        <div className="space-y-4 py-4 sticky top-0 h-screen flex flex-col border-l-4">
+        <div className="space-y-4 py-4 fixed w-1/5 top-0 h-screen flex flex-col border-l-4">
           <div className="flex-1">
             <div className="px-3 py-2">
               <h2 className="mb-2 px-4 text-sm md:text-lg font-semibold tracking-tight">
@@ -33,13 +33,12 @@ export function Sidebar({ className, children }: SidebarProps) {
                   icon={<Beef className="shrink-0" />}
                   onClick={() => navigation("/home")}
                 />
-              </div>
-            </div>
-            <div className="px-3 mt-4 py-2">
-              <h2 className="mb-2 px-4 text-sm md:text-lg font-semibold tracking-tight">
-                أخري
-              </h2>
-              <div className="space-y-1">
+                <SideBarItem
+                  title="الطلبات"
+                  icon={<Cookie className="shrink-0" />}
+                  variant={checkPathName("/orders")}
+                  onClick={() => navigation("/orders")}
+                />
               </div>
             </div>
           </div>

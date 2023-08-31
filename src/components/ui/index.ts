@@ -18,5 +18,8 @@ export * from "./ImageUpload";
 export * from "./select";
 export * from "./switch";
 export * from "./tabs";
+import { OrdersTable } from "./OrdersTable";
 // import { RestaurantsTable } from "./RestaurantsTable";
 // export { RestaurantsTable };
+
+export { OrdersTable };
