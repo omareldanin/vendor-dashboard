@@ -4,13 +4,16 @@ import {
   LoginScreen,
   OrdersScreen,
 } from "./screens";
+import { RequireAuth } from "./components/RequireAuth";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginScreen />} />
-      <Route path="/home" element={<HomeScreen />} />
-      <Route path="/orders" element={<OrdersScreen />} />
+      <Route element={<RequireAuth />}>
+        <Route path="/orders" element={<OrdersScreen />} />
+        <Route path="/home" element={<HomeScreen />} />
+      </Route>
     </Routes>
   );
 }
