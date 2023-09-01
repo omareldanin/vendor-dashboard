@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import {
   HomeScreen,
   LoginScreen,
+  NotificationsScreen,
   OrderItemDetailsScreen,
   OrdersScreen,
 } from "./screens";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/orders" element={<OrdersScreen />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/orders/:orderId" element={<OrderItemDetailsScreen />} />
+        <Route path="/notifications" element={<NotificationsScreen />} />
       </Route>
     </Routes>
   );

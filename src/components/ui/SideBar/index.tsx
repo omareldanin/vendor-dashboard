@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { SideBarItem } from "./components/sidebar-item";
 import { useAuth } from "@/store";
-import { Beef, Cookie } from "lucide-react";
+import { Beef, Bell, Cookie } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ModeToggle } from "./components/mode-toggle";
 
@@ -38,6 +38,12 @@ export function Sidebar({ className, children }: SidebarProps) {
                   icon={<Cookie className="shrink-0" />}
                   variant={checkPathName("/orders")}
                   onClick={() => navigation("/orders")}
+                />
+                <SideBarItem
+                  title="الاشعارات"
+                  icon={<Bell className="shrink-0" />}
+                  variant={checkPathName("/notifications")}
+                  onClick={() => navigation("/notifications")}
                 />
               </div>
             </div>
