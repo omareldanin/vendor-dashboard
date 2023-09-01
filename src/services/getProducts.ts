@@ -55,7 +55,13 @@ export interface ProductsResponse {
     results: Product[]
 }
 
-export const getProductsService = async () => {
-    const response = await api.get<ProductsResponse>(getProducts);
+export const getProductsService = async ({ vendorId }: {
+    vendorId?: number;
+}) => {
+    const response = await api.get<ProductsResponse>(getProducts, {
+        params: {
+            vendorId: vendorId || undefined
+        }
+    });
     return response.data;
 };

@@ -1,0 +1,102 @@
+import { ColumnDef } from "@tanstack/react-table";
+import {
+    Badge,
+} from "@/components";
+import { Order } from "@/services/getOrders";
+import { ChangeOrderStatus } from "./components/ChangeStatus";
+import { ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom"
+
+export const columns: ColumnDef<Order>[] = [
+    {
+        accessorKey: "name",
+        header: "الاسم",
+    },
+    {
+        accessorKey: "address",
+        header: "العنوان",
+    },
+    {
+        accessorKey: "phone",
+        header: "الهاتف",
+    },
+    {
+        header: "الطلبات",
+        cell: ({ row }) => {
+            const value = row.original;
+            return (
+                <div className="flex">
+                    <div className="mx-auto flex justify-end">
+                        {value.cart_products.map((item, index) => (
+                            <Badge className="text-white" key={index}>{item.product.title} : {item.quantity}</Badge>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+    },
+    {
+        accessorKey: "total",
+        header: "المجموع",
+    },
+    {
+        accessorKey: "status",
+        header: "الحالة",
+        cell: ({ row }) => {
+            const value = row.original;
+            return (
+                <div className="flex">
+                    {value.status === 'complete' ? (
+                        <div className="mx-auto flex">
+                            <Badge>تم التوصيل</Badge>
+                        </div>
+                    ) : value.status === 'in the way' ? (
+                        <div className="mx-auto flex justify-end">
+                            <Badge variant='secondary'>في الطريق</Badge>
+                        </div>
+                    ) : value.status === 'not started' ? (
+                        <div className="mx-auto flex justify-end">
+                            <Badge variant='destructive'>لم يبدأ</Badge>
+                        </div>
+                    ) : value.status === 'preparing' ? (
+                        <div className="mx-auto flex justify-end">
+                            <Badge variant='warning'>قيد التحضير</Badge>
+                        </div>
+                    ) : value.status === 'started' ? (
+                        <div className="mx-auto flex justify-end">
+                            <Badge variant='outline'>تم البدء</Badge>
+                        </div>) : null}
+                </div>
+            );
+        }
+    },
+    {
+        id: "actions",
+        header: "تغير الحالة",
+        cell: ({ row }) => {
+            const order = row.original;
+            return (
+                <div className="flex justify-center items-center gap-4" >
+                    <ChangeOrderStatus order={order} />
+                </div >
+            );
+        },
+    },
+    {
+        id: 'navigate',
+        header: 'التفاصيل',
+        cell: ({ row }) => {
+            const order = row.original;
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const navigate = useNavigate();
+            const handleClick = () => {
+                navigate(`/orders/${order.id}`);
+            };
+            return (
+                <div className="flex justify-center items-center gap-4">
+                    <ChevronLeft onClick={handleClick} className="w-6 h-6 cursor-pointer" />
+                </div>
+            );
+        }
+    }
+];
