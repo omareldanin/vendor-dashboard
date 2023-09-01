@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
 import { SideBarItem } from "./components/sidebar-item";
 import { useAuth } from "@/store";
-import { Beef, Cookie } from "lucide-react";
+import { Beef, Bell, Cookie } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ModeToggle } from "./components/mode-toggle";
+import { useNotifications } from "@/hooks";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -17,6 +18,13 @@ export function Sidebar({ className, children }: SidebarProps) {
     if (location.startsWith(pathStartsWith)) return "secondary";
     return "ghost";
   };
+
+  const { data: notifications = {
+    results: []
+  } } = useNotifications();
+
+  const unseenNotifications = notifications.results.filter((notification) => !notification.seen);
+
   return (
     <div className="grid grid-cols-5 h-screen">
       <div className={cn("pb-11 bg-background", className)}>
@@ -38,6 +46,19 @@ export function Sidebar({ className, children }: SidebarProps) {
                   icon={<Cookie className="shrink-0" />}
                   variant={checkPathName("/orders")}
                   onClick={() => navigation("/orders")}
+                />
+                <SideBarItem
+                  title="الاشعارات"
+                  icon={
+                    <div className="relative">
+                      <Bell className="shrink-0" />
+                      {unseenNotifications.length > 0 && (
+                        <div className="absolute -top-2 -right-2 bg-red-500 rounded-full h-3 w-3" />
+                      )}
+                    </div>
+                  }
+                  variant={checkPathName("/notifications")}
+                  onClick={() => navigation("/notifications")}
                 />
               </div>
             </div>
