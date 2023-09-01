@@ -4,6 +4,8 @@ import {
 } from "@/components";
 import { Order } from "@/services/getOrders";
 import { ChangeOrderStatus } from "./components/ChangeStatus";
+import { ChevronLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom"
 
 export const columns: ColumnDef<Order>[] = [
     {
@@ -74,10 +76,27 @@ export const columns: ColumnDef<Order>[] = [
         cell: ({ row }) => {
             const order = row.original;
             return (
-                <div className="flex justify-center items-center gap-4">
+                <div className="flex justify-center items-center gap-4" >
                     <ChangeOrderStatus order={order} />
-                </div>
+                </div >
             );
         },
     },
+    {
+        id: 'navigate',
+        header: 'التفاصيل',
+        cell: ({ row }) => {
+            const order = row.original;
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const navigate = useNavigate();
+            const handleClick = () => {
+                navigate(`/orders/${order.id}`);
+            };
+            return (
+                <div className="flex justify-center items-center gap-4">
+                    <ChevronLeft onClick={handleClick} className="w-6 h-6 cursor-pointer" />
+                </div>
+            );
+        }
+    }
 ];
