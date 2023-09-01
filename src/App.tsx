@@ -7,8 +7,10 @@ import {
   OrdersScreen,
 } from "./screens";
 import { RequireAuth } from "./components/RequireAuth";
+import { useNotifications } from "./hooks";
 
 function App() {
+  useNotifications();
   return (
     <Routes>
       <Route path="/" element={<LoginScreen />} />
