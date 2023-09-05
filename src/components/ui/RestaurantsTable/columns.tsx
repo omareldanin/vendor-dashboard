@@ -13,8 +13,12 @@ import {
     AvatarImage,
     AvatarFallback,
     Badge,
+    Switch,
+    DropdownMenuItem,
 } from "@/components";
 import { Product } from "@/services";
+import { useEditProduct } from "@/hooks/useEditProduct";
+import { EditPrice } from "./components/EditPrice";
 // import { EditRestaurant } from "./components/EditRestaurant";
 // import { AddDeliveryCost } from "./components/AddDeliveryCost";
 
@@ -63,6 +67,14 @@ export const columns: ColumnDef<Product>[] = [
     {
         accessorKey: "price",
         header: "السعر",
+        cell: ({ row }) => {
+            const value = row.original;
+            return (
+                <div className="flex">
+                    <span className="mx-auto">{parseInt(value.price) === 0 ? 'حسب الاختيار' : value.price}</span>
+                </div>
+            );
+        }
     },
     {
         accessorKey: "category.name",
@@ -88,39 +100,30 @@ export const columns: ColumnDef<Product>[] = [
             );
         }
     },
-    // {
-    //     accessorKey: "status",
-    //     header: "الحالة",
-    //     cell: ({ row }) => {
-    //         const value = row.original;
-    //         return (
-    //             <div className="flex">
-    //                 {value.status === 'open' ? (
-    //                     <div className="mx-auto flex">
-    //                         <Badge>مفتوح</Badge>
-    //                     </div>
-    //                 ) : value.status === 'close' ? (
-    //                     <div className="mx-auto flex justify-end">
-    //                         <Badge variant='destructive'>مغلق</Badge>
-    //                     </div>
-    //                 ) : value.status === 'busy' ? (
-    //                     <div className="mx-auto flex justify-end">
-    //                         <Badge variant='warning'>مشغول</Badge>
-    //                     </div>
-    //                 ) : value.status === 'soon' ? (
-    //                     <div className="mx-auto flex justify-end">
-    //                         <Badge variant='secondary'>قريبا</Badge>
-    //                     </div>
-    //                 ) : null}
-    //             </div>
-    //         );
-    //     }
-    // },
     {
         id: "actions",
-        cell: () => {
-            // const product = row.original;
+        cell: ({ row }) => {
+            const product = row.original;
 
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const { mutate: changeProductStatus } = useEditProduct({
+                onSuccess: () => { }
+            });
+
+            const handleStockChange = () => {
+                const formData = new FormData();
+                formData.append('title', product.title);
+                formData.append('price', product.price);
+                formData.append('vendorId', product.vendorId.toString());
+                formData.append('description', product.description);
+                formData.append('categoryId', product.categoryId.toString());
+                formData.append('available', product.available ? 'false' : 'true');
+                formData.append('featured', product.featured ? 'true' : 'false');
+                changeProductStatus({
+                    id: product.id,
+                    payload: formData
+                })
+            }
             return (
                 <div className="flex justify-center items-center gap-4">
                     <DropdownMenu>
@@ -130,15 +133,26 @@ export const columns: ColumnDef<Product>[] = [
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="center">
-                            <DropdownMenuLabel className="text-end mb-2">
-                                <span className="sr-only">الاجراءات</span>
-                                الاجراءات
+                        <DropdownMenuContent className="w-50 space-y-2">
+                            <DropdownMenuLabel>
+                                حالة المنتج
                             </DropdownMenuLabel>
-                            {/* <EditRestaurant restaurant={restuarant} />
-                            <DeleteRestuarantDialog restuarant={restuarant} />
-                            <AddDeliveryCost restaurant={restuarant} /> */}
                             <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                                <div className="flex justify-between items-center">
+                                    <p>متاح</p>
+                                    <Switch
+                                        dir="rtl"
+                                        checked={product.available}
+                                        onCheckedChange={handleStockChange}
+                                    />
+                                </div>
+                            </DropdownMenuItem>
+                            {parseInt(product.price) !== 0 ? (
+                                <DropdownMenuItem asChild>
+                                    <EditPrice product={product} />
+                                </DropdownMenuItem>
+                            ) : null}
                         </DropdownMenuContent>
                     </DropdownMenu>
                     <div>
