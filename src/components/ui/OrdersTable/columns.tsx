@@ -15,6 +15,11 @@ export const columns: ColumnDef<Order>[] = [
     {
         accessorKey: "address",
         header: "العنوان",
+        cell: ({ row }) => {
+            return (
+                <p>{row.original.address || 'لا يوجد'}</p>
+            );
+        },
     },
     {
         accessorKey: "phone",
@@ -76,9 +81,14 @@ export const columns: ColumnDef<Order>[] = [
         cell: ({ row }) => {
             const order = row.original;
             return (
-                <div className="flex justify-center items-center gap-4" >
-                    <ChangeOrderStatus order={order} />
-                </div >
+                <>
+                    {
+                        order.status === "started" ? (
+                            <div className="flex justify-center items-center gap-4" >
+                                <ChangeOrderStatus order={order} />
+                            </div >) : null
+                    }
+                </>
             );
         },
     },

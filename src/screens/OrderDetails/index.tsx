@@ -49,7 +49,10 @@ export const OrderItemDetailsScreen = () => {
                                         <Badge variant='outline'>تم البدء</Badge>
                                     </div>) : null}
                             </div>}
-                            <ChangeOrderStatus order={orderDetails.order} />
+                            {
+                                orderDetails.order.status === "started" ? (
+                                    <ChangeOrderStatus order={orderDetails.order} />
+                                ) : null}
                         </div>
                     </div>
                     <LoadingErrorPlaceholder
