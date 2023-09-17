@@ -1,13 +1,13 @@
 import { Sidebar } from "@/components";
 import { ProductsTable } from "@/components/ui/RestaurantsTable";
 import { columns } from "@/components/ui/RestaurantsTable/columns";
-import { useProducts } from "@/hooks";
+import { useNotifications, useProducts } from "@/hooks";
 
 export const HomeScreen = () => {
     const { data: products = {
         results: []
     }, isLoading, isError } = useProducts();
-
+    useNotifications();
     return (
         <div className="border-t">
             <div className="h-screen">
