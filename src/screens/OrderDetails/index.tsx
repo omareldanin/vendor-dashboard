@@ -1,6 +1,5 @@
 import { Badge, LoadingErrorPlaceholder, Sidebar, } from "@/components";
-// import { DeleteOrderDialog } from "@/components/ui/OrdersTable/components/DeleteOrder";
-import { useOrderDetails } from "@/hooks";
+import { useNotifications, useOrderDetails } from "@/hooks";
 import { Order } from "@/services/getOrders";
 import { ChevronRight } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,6 +16,7 @@ export const OrderItemDetailsScreen = () => {
     });
     const navigate = useNavigate();
     const handleBack = () => navigate(-1);
+    useNotifications();
     return (
         <div className="border-t">
             <div className="h-screen">

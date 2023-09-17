@@ -1,6 +1,6 @@
 import { OrdersTable, Sidebar, } from "@/components";
 import { columns } from "@/components/ui/OrdersTable/columns";
-import { useOrders } from "@/hooks";
+import { useNotifications, useOrders } from "@/hooks";
 import { useState } from "react";
 
 export const OrdersScreen = () => {
@@ -10,7 +10,7 @@ export const OrdersScreen = () => {
         count: 0,
         pages: 0,
     }, isLoading, isError } = useOrders({ page });
-
+    useNotifications();
     return (
         <div className="border-t">
             <div className="h-screen">
