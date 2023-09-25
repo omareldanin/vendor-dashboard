@@ -1,10 +1,13 @@
-import { Badge, LoadingErrorPlaceholder, Sidebar, } from "@/components";
+import { Badge, Button, LoadingErrorPlaceholder, Sidebar, } from "@/components";
 import { useNotifications, useOrderDetails } from "@/hooks";
 import { Order } from "@/services/getOrders";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Printer } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { OrderDetailsItem } from "./components/OrderDetailsItem";
 import { ChangeOrderStatus } from "@/components/ui/OrdersTable/components/ChangeStatus";
+import { Receipt } from "@/components/Recipt";
+import { useReactToPrint } from 'react-to-print';
+import { useRef } from "react";
 
 export const OrderItemDetailsScreen = () => {
     const { orderId = '' } = useParams();
@@ -17,6 +20,24 @@ export const OrderItemDetailsScreen = () => {
     const navigate = useNavigate();
     const handleBack = () => navigate(-1);
     useNotifications();
+
+    const componentRef = useRef(null);
+    const handlePrint = useReactToPrint({
+        content: () => {
+            const printableComponent = componentRef.current as HTMLElement | null;
+            if (printableComponent) {
+                printableComponent.classList.remove("hidden");
+            }
+            return printableComponent;
+        },
+        onAfterPrint: () => {
+            const printableComponent = componentRef.current as HTMLElement | null;
+            if (printableComponent) {
+                printableComponent.classList.add("hidden");
+            }
+        },
+    });
+
     return (
         <div className="border-t">
             <div className="h-screen">
@@ -27,6 +48,9 @@ export const OrderItemDetailsScreen = () => {
                             <h1 className="text-2xl font-bold ml-4">
                                 الطلب الخاص ب{orderDetails?.order.name}
                             </h1>
+                            <Button onClick={handlePrint} variant='secondary'>
+                                <Printer onClick={handlePrint} className="h-4 w-4 cursor-pointer" />
+                            </Button>
                             {<div>
                                 {orderDetails?.order.status === 'complete' ? (
                                     <div className="mx-auto flex">
@@ -138,6 +162,11 @@ export const OrderItemDetailsScreen = () => {
                                     }
                                 />
                             ))}
+                            <Receipt
+                                order={orderDetails.order}
+                                innerRef={componentRef}
+                                className="hidden"
+                            />
                         </div>
                     </LoadingErrorPlaceholder>
                 </Sidebar>
