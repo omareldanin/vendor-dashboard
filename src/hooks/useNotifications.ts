@@ -3,9 +3,12 @@ import { getNotificationsService } from "@/services/getNotifications";
 import { useAuth } from "@/store";
 import { Howl } from 'howler';
 import { NotificationSound } from '@/assets'
+import { useLocation } from "react-router-dom";
 
 export const useNotifications = () => {
     const { user } = useAuth();
+    const url = useLocation();
+    const isNavigation = url.pathname.startsWith("/notifications");
     return useQuery({
         queryKey: ["notifications"],
         queryFn: getNotificationsService,
@@ -14,7 +17,7 @@ export const useNotifications = () => {
             if (data?.results.some((notification) => !notification.seen)) {
                 return Infinity
             }
-            return 20000
+            return 10000
         },
         refetchOnWindowFocus: (query) => {
             if (query.state?.data?.results.some((notification) => !notification.seen)) {
@@ -29,7 +32,8 @@ export const useNotifications = () => {
             if (unseenNotifications.length > 0) {
                 playNotificationSound();
             }
-        }
+        },
+        refetchOnMount: isNavigation ? true : false,
     });
 };
 
