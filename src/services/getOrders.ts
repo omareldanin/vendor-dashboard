@@ -23,10 +23,15 @@ export interface Order {
     createdAt: Date;
     updatedAt: Date;
     userId: number;
+    area:Area;
     user: OrderUser;
     cart_products: CartProduct[];
 }
 
+export interface Area {
+    id: number;
+    name: string;
+}
 export type OrderStatus = "not started" | "started" | "preparing" | "in the way" | "complete";
 export interface CartProduct {
     id: number;

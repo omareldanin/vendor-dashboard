@@ -37,7 +37,7 @@ export const OrderItemDetailsScreen = () => {
             }
         },
     });
-
+    
     return (
         <div className="border-t">
             <div className="h-screen">
@@ -90,7 +90,7 @@ export const OrderItemDetailsScreen = () => {
                             />
                             <OrderDetailsItem
                                 title="العنوان"
-                                value={orderDetails?.order.address}
+                                value={orderDetails?.order.area?.name}
                             />
                             <OrderDetailsItem
                                 title="رقم الهاتف"

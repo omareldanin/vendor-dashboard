@@ -36,7 +36,7 @@ export const Receipt = ({ order, innerRef, className }: {
                 <div className="info">
                     <h2>معلومات التوصيل</h2>
                     <p>
-                        العنوان : {order.address}<br />
+                        العنوان : {order.area.name}<br />
                         الهاتف: {order.phone}<br />
                         الاجمالي: {order.total}<br />
                         {order.shipping && <>

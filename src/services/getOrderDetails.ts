@@ -7,7 +7,7 @@ interface GetOrderDeatilsResponse {
     order: Order
 }
 
-export const getOrderDetailsService = async (id: number) => {
-    const { data } = await api.get<GetOrderDeatilsResponse>(getOrderDetails + id);
+export const getOrderDetailsService = async (id: number,vendorId:number) => {
+    const { data } = await api.get<GetOrderDeatilsResponse>(getOrderDetails + id,{params:{vendorId}});
     return data;
 }
